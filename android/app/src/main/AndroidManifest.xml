@@ -2,9 +2,12 @@
     package="com.example.yag">
    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="YAG"
+        android:label="엣지"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/launcher_icon"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
+        >
         <activity
             android:name=".MainActivity"
             android:exported="true"

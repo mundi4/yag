@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../atg.dart';
@@ -59,9 +60,13 @@ class LoginModel extends ChangeNotifier {
   }
 
   Future<void> loadFromStorage() async {
-    _username = await _secureStorage.read(key: 'username') ?? '';
-    _password = await _secureStorage.read(key: 'password') ?? '';
-    notifyListeners();
+    try {
+      _username = await _secureStorage.read(key: 'username') ?? '';
+      _password = await _secureStorage.read(key: 'password') ?? '';
+      notifyListeners();
+    } on PlatformException {
+      await _secureStorage.deleteAll();
+    }
   }
 
   Future<void> saveToStorage() async {
