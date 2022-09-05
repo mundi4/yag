@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yag/src/models/login_model.dart';
@@ -124,8 +126,14 @@ class _SettingsPageState extends State<SettingsPage> with RestorationMixin {
                     child: TextButton(
                         onPressed: logout,
                         style: TextButton.styleFrom(
-                            primary: Theme.of(context).colorScheme.tertiary),
+                            foregroundColor:
+                                Theme.of(context).colorScheme.tertiary),
                         child: const Text('로그아웃하기'))),
+                const SizedBox(height: 24),
+                if (Platform.isWindows)
+                  const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('모바일(안드로이드) 앱: 👉 mundi4@gmail.com'))
               ])),
         )));
   }
@@ -181,7 +189,7 @@ class _SettingsPageState extends State<SettingsPage> with RestorationMixin {
               });
             }),
         Text(
-          '${_timeOffset.value.toInt()}시간 빠르게',
+          _timeOffset.value > 0 ? '${_timeOffset.value.toInt()}시간 빠르게' : '',
           style: Theme.of(context).textTheme.bodySmall,
         ),
       ],

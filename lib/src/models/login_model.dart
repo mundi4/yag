@@ -74,7 +74,7 @@ class LoginModel extends ChangeNotifier {
     await _secureStorage.delete(key: 'password');
   }
 
-  Future<User?> login({bool force = false}) async {
+  Future<User?> login({bool force = false, bool updatePassword = false}) async {
     if (_user != null && !force) {
       return _user;
     }
@@ -82,6 +82,23 @@ class LoginModel extends ChangeNotifier {
     try {
       user = await atg.login(_username, _password);
       await saveToStorage();
+
+      if (updatePassword) {
+        // bool changedTemp = false;
+        // final tempPassword =
+        //     _password != 'temp1357!' ? 'temp1357!' : 'temp2468!';
+
+        // try {
+        //   await atg.changePassword(_username, _password, tempPassword);
+        //   changedTemp = true;
+        //   await atg.changePassword(_username, tempPassword, _password);
+        // } catch (e) {
+        //   if (changedTemp) {
+        //     await atg.changePassword(_username, tempPassword, _password);
+        //   }
+        // }
+      }
+
       return user;
     } on LoginFailedException catch (e) {
       if (e.reason == LoginFailedReason.invalidPassword) {

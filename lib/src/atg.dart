@@ -455,6 +455,20 @@ class AtG {
     }
   }
 
+  Future<void> changePassword(
+      String username, String oldPassword, String newPassword) async {
+    var user = _user!;
+
+    final payload =
+        'SSV:utf-8nexaUsrId=${user.usrId}Dataset:dsCond_RowType_'
+        'usrId:STRING(256)usrPw:STRING(256)postPw:STRING(256)'
+        'postPwCfrm:STRING(256)crtfNo:STRING(256)sysDcd:STRING(256)I'
+        '$username$oldPassword$newPassword$newPassword$oldPasswordPS';
+
+    await _sendRequest('/common/login/saveChngPwd.do', payload,
+        ignoreError: false);
+  }
+
   void _parseCookies(http.Response response) {
     var setcookieStr = response.headers['set-cookie'];
     if (setcookieStr != null) {

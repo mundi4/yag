@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -23,16 +22,20 @@ Future<void> main() async {
     try {
       await loginModel.login();
     } catch (error) {
-      log(error.toString());
+      //log(error.toString());
     }
   }
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider.value(value: loginModel),
     ChangeNotifierProvider.value(value: settingsModel),
-    ChangeNotifierProvider(
-      create: (_) =>
-          WorkTargetListModel(atG: atg, settingsModel: settingsModel),
-    ),
+    ChangeNotifierProvider(create: (_) {
+      final wtlm = WorkTargetListModel(atG: atg, settingsModel: settingsModel);
+      wtlm.dueDate = DateUtils.dateOnly(DateTime.now().add(Duration(
+          hours: settingsModel.workGroup == 'night'
+              ? settingsModel.timeOffset
+              : 0)));
+      return wtlm;
+    }),
   ], child: const MyApp()));
 }
 

@@ -1,59 +1,10 @@
 // ignore_for_file: unused_element
 
-/*
-result.data['dsUser']![0]
-
-0:
-"usrId" -> "BP-DREAMNURI08"
-1:
-"usrNm" -> "윤영심"
-2:
-"usrPw" -> ""
-3:
-"crtfNo" -> ""
-4:
-"empNo" -> "2019030239"
-5:
-"rsofDcd" -> ""
-6:
-"rsofNm" -> ""
-7:
-"dprtCd" -> "50294098"
-8:
-"dprtNm" -> "디앤오강서사옥운영센터"
-9:
-"wkDprtCd" -> "50294098"
-10:
-"wkDprtNm" -> "디앤오강서사옥운영센터"
-11:
-"wkDispCd" -> "F0445"
-12:
-"wkDprtLvl" -> "60"
-13:
-"centTcd" -> "OP"
-14:
-"dprtLvl" -> "60"
-15:
-"wbsCd" -> "F0445"
-16:
-"cstCentCd" -> ""
-17:
-"dispCd" -> "F0445"
-18:
-"vndrNo" -> "5706"
-19:
-"vndrNm" -> "(주)드림누리"
-20:
-"bsrn" -> "3568800857"
-
-*/
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:yag/src/routes.dart';
 
 import 'atg.dart';
 import 'models/login_model.dart';
+import 'routes.dart';
 
 class _PasswordField extends StatefulWidget {
   const _PasswordField({
@@ -259,13 +210,15 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _handleSubmitted() async {
-    log("1");
+    if (isBusy) {
+      return;
+    }
+
     final form = _formKey.currentState!;
     if (!form.validate()) {
       _showInSnackBar('입력 오류를 수정하세요.');
       return;
     }
-    log("22");
     // setState(() {
     //   isBusy = true;
     // });
@@ -277,7 +230,7 @@ class _LoginPageState extends State<LoginPage> {
           return const Center(child: CircularProgressIndicator());
         });
 
-    log("3");
+    isBusy = true;
     try {
       // log('delaying...');
       // await Future.delayed(const Duration(seconds: 3));
@@ -326,6 +279,7 @@ class _LoginPageState extends State<LoginPage> {
         rethrow;
       }
     } finally {
+      isBusy = false;
       // Navigator.of(context, rootNavigator: true).pop('dialog');
       // setState(() {
       //   isBusy = false;
