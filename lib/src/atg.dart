@@ -64,12 +64,12 @@ class AtG {
     var result = await _sendRequest(
         '/sm/op/workpros/wkTrgtIqry/retrieveWkTrgt.do', payload);
 
-    if (result.errorCode != '0') {
-      if (result.errorCode == '-2' && result.errorMessage == loggedOutMessage) {
-        throw const AtGException('loggedOut');
-      }
-      throw AtGException(result.errorMessage);
-    }
+    // if (result.errorCode != '0') {
+    //   if (result.errorCode == '-2' && result.errorMessage == loggedOutMessage) {
+    //     throw const AtGException('loggedOut');
+    //   }
+    //   throw AtGException(result.errorMessage);
+    // }
 
     var rows = result.data['dsWkTrgtLst']!;
     var list = rows.map((e) => WorkTarget.fromSsv(e)).toList(growable: false);

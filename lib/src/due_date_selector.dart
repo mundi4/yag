@@ -25,7 +25,7 @@ class DueDateSelector extends StatelessWidget {
                   alignment: Alignment.center,
                   child: GestureDetector(
                     onTap: () => _showDatePicker(context),
-                    child: Text(DateFormat.yMMMMEEEEd(locale).format(dueDate),
+                    child: Text(DateFormat.yMEd(locale).format(dueDate),
                         style: Theme.of(context).textTheme.titleLarge),
                   ))),
           IconButton(

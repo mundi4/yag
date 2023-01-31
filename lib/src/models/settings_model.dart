@@ -48,10 +48,16 @@ class SettingsModel extends ChangeNotifier {
   Future<void> loadFromStorage() async {
     final prefs = await SharedPreferences.getInstance();
 
-    workGroup = prefs.getString('workGroup') ?? 'day';
-    workResultContents = prefs.getString('workResultContents') ?? '작업결과양호';
-    timeOffset = int.parse(prefs.getString('timeOffset') ?? '0');
-    refreshPassword = prefs.getString('refreshPassword') == 'y';
+    _workGroup = prefs.getString('workGroup') ?? 'day';
+    if (_workGroup.isEmpty) {
+      _workGroup = 'day';
+    }
+    _workResultContents = prefs.getString('workResultContents') ?? '작업결과양호';
+    if (_workResultContents.isEmpty) {
+      _workResultContents = '작업결과양호';
+    }
+    _timeOffset = int.parse(prefs.getString('timeOffset') ?? '0');
+    _refreshPassword = prefs.getString('refreshPassword') == 'y';
 
     notifyListeners();
   }

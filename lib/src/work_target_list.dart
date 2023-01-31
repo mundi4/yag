@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yag/src/models/login_model.dart';
 import 'package:yag/src/models/work_target.dart';
 import 'package:yag/src/models/work_target_list_model.dart';
 
@@ -29,25 +30,19 @@ class _WorkTargetListState extends State<WorkTargetList> {
   }
 
   Future<void> loadWorkTargets() async {
+    final wtlm = context.read<WorkTargetListModel>();
     try {
-      final wtlm = context.read<WorkTargetListModel>();
-
-      // if (mounted) {
-      //   setState(() {
-      //     _items = null;
-      //   });
-      // }
-
       await wtlm.loadWorkTargets();
-
-      // if (mounted) {
-      //   setState(() {
-      //     _items = wtlm.items;
-      //   });
-      // }
     } on AtGException catch (e) {
       if (e.message == 'loggedOut') {
-        Navigator.pushReplacementNamed(context, loginRoute);
+        final loginModel = context.read<LoginModel>();
+        if (await loginModel.tryLogin()) {
+          await wtlm.loadWorkTargets();
+          return;
+        } else {
+          Navigator.pushReplacementNamed(context, loginRoute);
+        }
+        // Navigator.pushReplacementNamed(context, loginRoute);
       } else {
         rethrow;
       }

@@ -1,11 +1,8 @@
-//import 'package:flutter/material.dart';
-
 const String statusPublished = "1";
 const String statusInProgress = "2";
 const String statusCompleted = "3";
 const String statusDelayed = "4";
 
-//@immutable
 class WorkTarget {
   final String wkNo;
   final String wkNm;

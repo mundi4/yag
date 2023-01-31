@@ -133,7 +133,7 @@ class _SettingsPageState extends State<SettingsPage> with RestorationMixin {
                 if (Platform.isWindows)
                   const Align(
                       alignment: Alignment.centerLeft,
-                      child: Text('모바일(안드로이드) 앱: 👉 mundi4@gmail.com'))
+                      child: Text('모바일(안드로이드) 버전: 👉 mundi4@gmail.com'))
               ])),
         )));
   }

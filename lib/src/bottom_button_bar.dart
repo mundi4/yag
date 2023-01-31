@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yag/src/models/settings_model.dart';
-
+import 'atg.dart';
+import 'models/login_model.dart';
+import 'models/settings_model.dart';
 import 'models/work_target_list_model.dart';
+import 'routes.dart';
 
 class BottomButtonBar extends StatelessWidget {
   const BottomButtonBar({super.key});
@@ -20,23 +22,63 @@ class BottomButtonBar extends StatelessWidget {
         ElevatedButton.icon(
             onPressed: canStart
                 ? () async {
-                    final settingsModel = context.read<SettingsModel>();
-                    await context
-                        .read<WorkTargetListModel>()
-                        .startAll(settingsModel.workResultContents);
+                    await _startAll(context);
                   }
                 : null,
             icon: const Icon(Icons.start),
-            label: const Text('일괄 시작')),
+            label: const Text('시작')),
         ElevatedButton.icon(
             onPressed: canComplete
                 ? () async {
-                    await context.read<WorkTargetListModel>().completeAll();
+                    await _completeAll(context);
                   }
                 : null,
             icon: const Icon(Icons.done),
-            label: const Text('일괄 완료')),
+            label: const Text('완료')),
       ],
     );
+  }
+
+  Future<void> _startAll(
+    BuildContext context,
+  ) async {
+    final settingsModel = context.read<SettingsModel>();
+    final wtlm = context.read<WorkTargetListModel>();
+    try {
+      await wtlm.startAll(settingsModel.workResultContents);
+    } on AtGException catch (e) {
+      if (e.message == 'loggedOut') {
+        final loginModel = context.read<LoginModel>();
+        if (await loginModel.tryLogin()) {
+          await wtlm.loadWorkTargets();
+          return;
+        } else {
+          Navigator.pushReplacementNamed(context, loginRoute);
+        }
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  Future<void> _completeAll(
+    BuildContext context,
+  ) async {
+    final wtlm = context.read<WorkTargetListModel>();
+    try {
+      await wtlm.completeAll();
+    } on AtGException catch (e) {
+      if (e.message == 'loggedOut') {
+        final loginModel = context.read<LoginModel>();
+        if (await loginModel.tryLogin()) {
+          await wtlm.loadWorkTargets();
+          return;
+        } else {
+          Navigator.pushReplacementNamed(context, loginRoute);
+        }
+      } else {
+        rethrow;
+      }
+    }
   }
 }

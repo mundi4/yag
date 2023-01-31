@@ -127,4 +127,15 @@ class LoginModel extends ChangeNotifier {
     await saveToStorage();
     notifyListeners();
   }
+
+  Future<bool> tryLogin() async {
+    if (username.isNotEmpty && password.isNotEmpty) {
+      try {
+        await login(force: true);
+        return true;
+        // ignore: empty_catches
+      } catch (e) {}
+    }
+    return false;
+  }
 }

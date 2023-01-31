@@ -95,17 +95,22 @@ class WorkTargetListModel extends ChangeNotifier {
       return;
     }
 
+    _canStart = false;
+    _canComplete = false;
+    notifyListeners();
+
     List<WorkTarget> newList = List.from(_items!);
     for (var i = 0; i < _items!.length; i++) {
       final item = _items![i];
-      // log('wkNo: ${item.wkNo}  $resultContents');
-
-      // await Future.delayed(const Duration(milliseconds: 50));
+      //await Future.delayed(const Duration(milliseconds: 100));
       await atg.updateWorkStatus(item.wkNo, statusInProgress, resultContents);
-      newList[i] = _items![i].withStatus(statusInProgress, resultContents);
+      newList[i] = item.withStatus(statusInProgress, resultContents);
+      notifyListeners();
     }
 
     _items = newList;
+    _canStart = false;
+    _canComplete = true;
     notifyListeners();
     // log('done');
   }
@@ -115,17 +120,20 @@ class WorkTargetListModel extends ChangeNotifier {
       return;
     }
 
+    _canStart = false;
+    _canComplete = false;
+    notifyListeners();
+
     List<WorkTarget> newList = List.from(_items!);
     for (var i = 0; i < _items!.length; i++) {
       final item = _items![i];
-      // log('wkNo: ${item.wkNo}');
-
-      // await Future.delayed(const Duration(milliseconds: 50));
       await atg.updateWorkStatus(item.wkNo, statusCompleted, null);
-      newList[i] = _items![i].withStatus(statusCompleted, null);
+      newList[i] = item.withStatus(statusCompleted, null);
     }
 
     _items = newList;
+    _canStart = false;
+    _canComplete = false;
     notifyListeners();
     // log('done');
   }
