@@ -1,24 +1,2 @@
 # what is this?
-This is a very basic and straightforward app. It was created specifically for my superior, who is nearly computer-illiterate, to be able to use it with ease (even the ‘Y’ in the app’s name is her initial). The UI is **intentionally** simplistic to the point of being unadorned. I developed this app using the Dart language and Flutter for the first time (for fun).
-
-
-
-
-
-
-# yag
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This app is straightforward, designed for a single, daily repetitive task. Created specifically for my superior, who is not tech-savvy, the UI is intentionally simple for ease of use. The ‘Y’ in the app’s name is a nod to her initial. Developed using Dart and Flutter for the first time.
